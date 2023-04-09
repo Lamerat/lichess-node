@@ -1,0 +1,23 @@
+{
+  "name": "lichess",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "tsc & node ./test.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/dotenv": "^8.2.0",
+    "@types/node": "^18.15.11",
+    "dotenv": "^16.0.3",
+    "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "got": "^12.6.0"
+  }
+}
