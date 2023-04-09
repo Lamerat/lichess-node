@@ -170,3 +170,29 @@ export type performanceStatisticsUser = {
     }
   }
 }
+
+export interface userById {
+  id: string,
+  username: string,
+  perfs: perfs,
+  createdAt: number,
+  disabled: boolean,
+  tosViolation: boolean,
+  profile: profile,
+  seenAt: number,
+  patron: boolean,
+  verified: boolean,
+  playTime: playTime,
+  title: string
+}
+
+export interface teamMember extends userById {
+  url: string,
+  playing: string,
+  count: count,
+  streaming: boolean,
+  followable: boolean,
+  following: boolean,
+  blocking: boolean,
+  followsYou: boolean,
+}

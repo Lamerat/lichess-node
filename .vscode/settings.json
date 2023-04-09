@@ -6,6 +6,7 @@
     "glicko",
     "leaderboard",
     "Lichess",
+    "ndjson",
     "perfs",
     "uscfRating"
   ]

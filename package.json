@@ -18,6 +18,8 @@
     "typescript": "^5.0.4"
   },
   "dependencies": {
-    "got": "^12.6.0"
+    "@types/ndjson": "^2.0.1",
+    "got": "^12.6.0",
+    "ndjson": "^2.0.0"
   }
 }

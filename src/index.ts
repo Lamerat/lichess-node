@@ -1,5 +1,7 @@
-import { playerObject, realTimeUser, perfType, topTenObject, userPublicData, performanceStatisticsUser } from './types.js';
+import { playerObject, realTimeUser, perfType, topTenObject, userPublicData, performanceStatisticsUser, userById } from './types.js';
+import { teamMember } from './types.js';
 import got from 'got';
+import ndJSON from 'ndjson'
 
 
 export default class Lichess {
@@ -27,6 +29,19 @@ export default class Lichess {
   constructor(token: string = null) {
     this.token = token;
     this.headers = token ? { Authorization: `Bearer ${this.token}` } : {}
+  }
+
+
+  private gotStream(url: string) {
+    return new Promise((resolve, reject) => {
+      const result = [];
+
+      Lichess.request.stream(url, { headers: { ...this.headers } })
+        .on('error', (error) => reject(error))
+        .pipe(ndJSON.parse())
+        .on('data', (data) => result.push(data))
+        .on('end', () => resolve(result))
+    })
   }
 
 
@@ -132,6 +147,54 @@ export default class Lichess {
       return Promise.resolve(JSON.parse(result.body))
     } catch (error) {
       return Promise.reject(error)
+    }
+  }
+
+
+  /** Read data to generate the activity feed of a user */
+  public async getUserActivity(options: { username: string }): Promise<object[]> {
+    try {
+      const { username } = options;
+
+      if (!username || typeof username !== 'string' || !username.trim().length) throw new Error(`Missing or invalid option 'username'! Must be string with min 1 symbol.`);
+
+      const result = await Lichess.request.get(`${Lichess.api}/user/${username}/activity`);
+      return Promise.resolve(JSON.parse(result.body))
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+
+
+  /** Get up to 300 users by their IDs. Users are returned in the same order as the IDs */
+  public async getUsersByID(options: { usersIds: string[] }): Promise<userById[]> {
+    try {
+      const { usersIds } = options;
+
+      if (!usersIds || !Array.isArray(usersIds) || !usersIds.length) throw new Error(`Missing or invalid option 'usersIds'! Must be array of strings with min. 1 record.`);
+      if (usersIds.length > 300) throw new Error(`Option 'usersIds' can include max 300 ids!`)
+      if (usersIds.some(x => typeof x !== 'string')) throw new Error(`Option 'userIds' include invalid record! All must be 'string' type.`)
+
+      const result = await Lichess.request.post(`${Lichess.api}/users`, { body: usersIds.join(',') });
+      return Promise.resolve(JSON.parse(result.body))
+    } catch (error) {
+      return Promise.reject(error)
+    }
+  }
+
+
+  /** Members are sorted by reverse chronological order of joining the team (most recent first). Token only required if the list of members is private */
+  public async getMembersOfTeam(options: { teamId: string }): Promise<teamMember[]> {
+    try {
+      const { teamId } = options;
+
+      if (!teamId || typeof teamId !== 'string' || !teamId.trim().length) throw new Error(`Missing or invalid option 'teamId'! Must be string with min 1 symbol.`);
+
+      const data = await this.gotStream(`${Lichess.api}/team/${teamId}/users`);
+      const result = JSON.parse(JSON.stringify(data));
+      return Promise.resolve(result);
+    } catch (error) {
+      return Promise.reject(error);
     }
   }
 }
