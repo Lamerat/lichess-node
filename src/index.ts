@@ -32,14 +32,19 @@ export default class Lichess {
   }
 
 
-  private gotStream(url: string) {
+  private gotStream(url: string, limit: number = 100) {
     return new Promise((resolve, reject) => {
       const result = [];
+      let counter = 1;
 
-      Lichess.request.stream(url, { headers: { ...this.headers } })
+      const stream = Lichess.request.stream(url, { headers: { ...this.headers } })
         .on('error', (error) => reject(error))
         .pipe(ndJSON.parse())
-        .on('data', (data) => result.push(data))
+        .on('data', (data) => {
+          result.push(data)
+          if (counter >= limit) stream.end()
+          counter = counter + 1
+        })
         .on('end', () => resolve(result))
     })
   }
@@ -184,13 +189,14 @@ export default class Lichess {
 
 
   /** Members are sorted by reverse chronological order of joining the team (most recent first). Token only required if the list of members is private */
-  public async getMembersOfTeam(options: { teamId: string }): Promise<teamMember[]> {
+  public async getMembersOfTeam(options: { teamId: string, limit?: number }): Promise<teamMember[]> {
     try {
-      const { teamId } = options;
+      const { teamId, limit = 100 } = options;
 
       if (!teamId || typeof teamId !== 'string' || !teamId.trim().length) throw new Error(`Missing or invalid option 'teamId'! Must be string with min 1 symbol.`);
+      if (typeof limit !== 'number' || limit < 1) throw new Error(`Invalid option 'limit'. Must be number bigger for zero`)
 
-      const data = await this.gotStream(`${Lichess.api}/team/${teamId}/users`);
+      const data = await this.gotStream(`${Lichess.api}/team/${teamId}/users`, limit);
       const result = JSON.parse(JSON.stringify(data));
       return Promise.resolve(result);
     } catch (error) {
