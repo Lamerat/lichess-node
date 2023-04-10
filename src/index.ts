@@ -1,5 +1,5 @@
 import { playerObject, realTimeUser, perfType, topTenObject, userPublicData, performanceStatisticsUser, userById } from './types.js';
-import { teamMember } from './types.js';
+import { teamMember, liveStreamer, crosstable, autocompleteUserName } from './types.js';
 import got from 'got';
 import ndJSON from 'ndjson'
 
@@ -199,6 +199,55 @@ export default class Lichess {
       const data = await this.gotStream(`${Lichess.api}/team/${teamId}/users`, limit);
       const result = JSON.parse(JSON.stringify(data));
       return Promise.resolve(result);
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  }
+
+
+  /** Get basic info about currently streaming users. This API is very fast and cheap on lichess side. So you can call it quite often (like once every 5 seconds) */
+  public async getLiveStreamers(): Promise<liveStreamer[]> {
+    try {
+      const result = await Lichess.request.get(`${Lichess.api}/streamer/live`);
+      return Promise.resolve(JSON.parse(result.body))
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  }
+
+
+  /** Get basic info about currently streaming users. This API is very fast and cheap on lichess side. So you can call it quite often (like once every 5 seconds) */
+  public async getCrossTable(options: { user1: string, user2: string, matchup: boolean }): Promise<crosstable> {
+    try {
+      const { user1, user2, matchup = false } = options
+
+      if (!user1 || typeof user1 !== 'string' || !user1.trim().length) throw new Error(`Missing or invalid option 'user1'! Must be string with min 1 symbol.`);
+      if (!user2 || typeof user2 !== 'string' || !user2.trim().length) throw new Error(`Missing or invalid option 'user2'! Must be string with min 1 symbol.`);
+      if (typeof matchup !== 'boolean') throw new Error(`Invalid option 'matchup'! Must be boolean.`)
+      
+      const result = await Lichess.request.get(`${Lichess.api}/crosstable/${user1}/${user2}?matchup=${matchup}`);
+      return Promise.resolve(JSON.parse(result.body))
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  }
+
+
+  /** Get basic info about currently streaming users. This API is very fast and cheap on lichess side. So you can call it quite often (like once every 5 seconds) */
+  public async autocompleteUsernames<bool extends boolean>(options: { term: string, obj: bool, friend: boolean }){
+    try {
+      const { term, obj, friend } = options
+      // const friend = options.friend && this.token ? true: false;
+
+      if (!term || typeof term !== 'string' || term.trim().length < 3) throw new Error(`Missing or invalid option 'term'! Must be string with min 3 characters.`);
+      if (typeof obj !== 'boolean') throw new Error(`Invalid option 'obj'! Must be boolean.`)
+      if (typeof friend !== 'boolean') throw new Error(`Invalid option 'friend'! Must be boolean.`)
+      
+      type resType = bool extends true ? autocompleteUserName : string[]      
+      const res = await Lichess.request.get(`${Lichess.api}/player/autocomplete?term=${term}&object=${obj}&friend=${friend}`);
+      const result: resType = JSON.parse(res.body);
+
+      return Promise.resolve(result)
     } catch (error) {
       return Promise.reject(error);
     }

@@ -196,3 +196,47 @@ export interface teamMember extends userById {
   blocking: boolean,
   followsYou: boolean,
 }
+
+type stream = {
+  service: string,
+  status: string,
+  lang: string
+}
+
+type streamer = {
+  name: string,
+  headline: string,
+  description: string,
+  twitch: string,
+  youTube: string,
+  image: string
+}
+
+
+export type liveStreamer = {
+  id: string,
+  name  : string,
+  title : string,
+  patron  : boolean,
+  stream: stream,
+  streamer: streamer
+}
+
+export type crosstable = {
+  users: object,
+  nbGames: number,
+  matchup: {
+    users: object,
+    nbGames: number
+  }
+}
+
+export type autocompleteUserName = {
+  result: {
+    id: string,
+    name: string,
+    title: string,
+    patron: boolean,
+    online: boolean
+  }[]
+}
