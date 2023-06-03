@@ -1,11 +1,13 @@
-import { playerObject, realTimeUser, perfType, topTenObject, userPublicData, performanceStatisticsUser, userById } from './types.js';
-import { teamMember, liveStreamer, crosstable, autocompleteUserName } from './types.js';
+import { playerObject, realTimeUser, perfType, topTenObject, userPublicData, performanceStatisticsUser, userById, pngJSON } from './types.js';
+import { teamMember, liveStreamer, crosstable, autocompleteUserName, mastersDatabase, masterResponse, lichessGamesRequest } from './types.js';
+import { playerGamesOpening, playerGamesOpeningResponse, puzzleType, yourPuzzle } from './types.js';
 import got from 'got';
 import ndJSON from 'ndjson'
 
 
 export default class Lichess {
   private static api: string = 'https://lichess.org/api';
+  private static explorer: string = 'https://explorer.lichess.ovh'
   private static validPerfType = ['ultraBullet', 'bullet', 'blitz', 'rapid', 'classical', 'chess960', 'crazyhouse', 'antichess', 'atomic', 'horde', 'kingOfTheHill', 'racingKings', 'threeCheck'];
   private token: string = null;
   private headers: object;
@@ -24,6 +26,22 @@ export default class Lichess {
     },
     mutableDefaults: true
   })
+
+  private static pngParser(png: string) {
+    const pngToArray = png.split('\n').filter(x => x)
+    const result: pngJSON = {}
+    pngToArray.forEach(x => {
+      if (x.startsWith('[') && x.endsWith(']')) {
+        const [tag, ...rest]: string[] = x.slice(1, x.length - 1).split(' ').map(x => x.replaceAll('"', ''))
+        const camelCaseTag = [...tag]
+        camelCaseTag[0] = camelCaseTag[0].toLowerCase()
+        result[camelCaseTag.join('')] = rest.join( ' ')
+      } else {
+        result.moves = x
+      }
+    })
+    return result
+  }
   
 
   constructor(token: string = null) {
@@ -236,20 +254,160 @@ export default class Lichess {
   /** Get basic info about currently streaming users. This API is very fast and cheap on lichess side. So you can call it quite often (like once every 5 seconds) */
   public async autocompleteUsernames<bool extends boolean>(options: { term: string, obj: bool, friend: boolean }){
     try {
-      const { term, obj, friend } = options
-      // const friend = options.friend && this.token ? true: false;
+      const { term, obj, friend } = options;
 
       if (!term || typeof term !== 'string' || term.trim().length < 3) throw new Error(`Missing or invalid option 'term'! Must be string with min 3 characters.`);
-      if (typeof obj !== 'boolean') throw new Error(`Invalid option 'obj'! Must be boolean.`)
-      if (typeof friend !== 'boolean') throw new Error(`Invalid option 'friend'! Must be boolean.`)
+      if (typeof obj !== 'boolean') throw new Error(`Invalid option 'obj'! Must be boolean.`);
+      if (typeof friend !== 'boolean') throw new Error(`Invalid option 'friend'! Must be boolean.`);
       
-      type resType = bool extends true ? autocompleteUserName : string[]      
+      type resType = bool extends true ? autocompleteUserName : string[]
       const res = await Lichess.request.get(`${Lichess.api}/player/autocomplete?term=${term}&object=${obj}&friend=${friend}`);
       const result: resType = JSON.parse(res.body);
 
-      return Promise.resolve(result)
+      return Promise.resolve(result);
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  }
+
+  // RELATIONS
+  /** Get users followed by the logged in user */
+  public async getUsersFollowed(limit: number = 10): Promise<userPublicData[]> {
+    try {
+      if (typeof limit !== 'number' || limit < 1) throw new Error(`Invalid option 'limit'. Must be number bigger for zero`)
+
+      const data = await this.gotStream(`${Lichess.api}/rel/following`, limit);
+      const result = JSON.parse(JSON.stringify(data));
+      return Promise.resolve(result);
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  }
+
+  /** Follow or unfollow a player, adding or remove them to your list of Lichess friends. */
+  public async followUnfollowPlayer(options: { username: string, action: 'follow' | 'unfollow' }): Promise<{ ok: boolean }> {
+    try {
+      const { username, action } = options;
+      if (!username || typeof username !== 'string' || !username.trim().length) throw new Error(`Missing or invalid option 'username'! Must be string with min 1 symbol.`);
+      if (!action || typeof action !== 'string') throw new Error(`Missing or invalid option 'action'! Must be follow or unfollow`);
+
+      const result = await Lichess.request.post(`${Lichess.api}/rel/${action}/${username}`, { headers: { ...this.headers } });
+      return Promise.resolve(JSON.parse(result.body))
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  }
+
+  // OPENING EXPLORER
+  public async mastersDatabase(options?: mastersDatabase): Promise<masterResponse> {
+    try {
+      if (options?.topGames && (typeof options.topGames !== 'number' || options.topGames > 15)) throw new Error(`Invalid option 'topGames'. Must be number <= 15`)
+
+      const queryArray = options ? Object.keys(options).map(x => `${x}=${options[x]}`) : []
+      const query = queryArray.length ? '?' + queryArray.join('&') : ''
+
+      const result = await Lichess.request.get(`${Lichess.explorer}/masters${query}`);
+      return Promise.resolve(JSON.parse(result.body));
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  }
+
+  /** Games sampled from all Lichess players */
+  public async lichessGames(options?: lichessGamesRequest): Promise<masterResponse> {
+    try {
+      if (options?.topGames && (typeof options.topGames !== 'number' || options.topGames > 4)) throw new Error(`Invalid option 'topGames'. Must be number <= 4`)
+      if (options?.recentGames && (typeof options.recentGames !== 'number' || options.recentGames > 4)) throw new Error(`Invalid option 'recentGames'. Must be number <= 4`)
+      
+      const queryArray = options
+      ? Object.keys(options).map(x => Array.isArray(options[x]) ? `${x}=${options[x].join(',')}` : `${x}=${options[x]}`)
+      : []
+      
+      const query = queryArray.length ? '?' + queryArray.join('&') : ''
+      
+      const result = await Lichess.request.get(`${Lichess.explorer}/lichess${query}`);
+      return Promise.resolve(JSON.parse(result.body));
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  }
+
+  /** Games of a Lichess player */
+  public async playerGames(options?: playerGamesOpening): Promise<playerGamesOpeningResponse> {
+    try {
+      if (options?.recentGames && (typeof options.recentGames !== 'number' || options.recentGames > 8)) throw new Error(`Invalid option 'recentGames'. Must be number <= 8`)
+      const queryArray = options
+      ? Object.keys(options).map(x => Array.isArray(options[x]) ? `${x}=${options[x].join(',')}` : `${x}=${options[x]}`)
+      : []
+      
+      const query = queryArray.length ? '?' + queryArray.join('&') : ''
+      const data = await this.gotStream(`${Lichess.explorer}/player${query}`, 1);
+      return Promise.resolve(JSON.parse(JSON.stringify(data[0])));
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  }
+
+  public async OTBMasterGame<formatValue extends 'png' | 'json'>(gameId: string, format: formatValue) {
+    try {
+      const data = await Lichess.request.get(`${Lichess.explorer}/master/pgn/${gameId}`, { headers: { "accept":"application/x-ndjson" } });
+      type resType = formatValue extends 'png' ? string : pngJSON;
+      const result = format === 'png' ? data.body : Lichess.pngParser(data.body);
+      return result as resType;
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  }
+
+  // PUZZLES
+/** Get the daily puzzle */
+  public async getTheDailyPuzzle(): Promise<puzzleType> {
+    try {
+      const result = await Lichess.request.get(`${Lichess.api}/puzzle/daily`);
+      return Promise.resolve(JSON.parse(result.body))
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  }
+
+  /** Get a single Lichess puzzle in JSON format */
+  public async getPuzzleByID(id: string): Promise<puzzleType> {
+    try {
+      if (!id || typeof id !== 'string' || !id.trim().length) throw new Error(`Missing or invalid option 'id'!`)
+      const result = await Lichess.request.get(`${Lichess.api}/puzzle/${id}`);
+      return Promise.resolve(JSON.parse(result.body))
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  }
+
+  /** Download your puzzle activity in ndjson format */
+  public async getYourPuzzleActivity(options?: { max?: number, before?: number }): Promise<yourPuzzle[]> {
+    try {
+      const max = options?.max || 1;
+      const before = options?.before || 1356998400070;
+
+      if (max < 1) throw new Error(`Invalid option 'max'. Must be >= 1`);
+      if (before < 1356998400070) throw new Error(`Invalid option 'max'. Must be >= 1356998400070`);
+
+      const queryArray = options
+      ? Object.keys(options).map(x => Array.isArray(options[x]) ? `${x}=${options[x].join(',')}` : `${x}=${options[x]}`)
+      : []
+      
+      const query = queryArray.length ? '?' + queryArray.join('&') : '';
+      const data = await this.gotStream(`${Lichess.api}/puzzle/activity${query}`, max);
+
+      return Promise.resolve(JSON.parse(JSON.stringify(data)));
     } catch (error) {
       return Promise.reject(error);
     }
   }
 }
+
+
+const elka = new Lichess('lip_dZOVLWxgrKGzUYbrSRxz')
+
+elka.getYourPuzzleActivity({ max: 2, before: 1685577600070 })
+  .then(x => {
+    console.log(x.map(x => x.puzzle))
+  }).catch(e => console.log(e))

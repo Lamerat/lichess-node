@@ -240,3 +240,175 @@ export type autocompleteUserName = {
     online: boolean
   }[]
 }
+
+type openingVariants = 'standard' | 'chess960' | 'crazyhouse' | 'antichess' | 'atomic' | 'horde' | 'kingOfTheHill' | 'racingKings' | 'threeCheck' | 'fromPosition'
+type openingSpeeds = 'ultraBullet' | 'bullet' | 'blitz' | 'rapid' | 'classical' | 'correspondence'
+type openingRatings = '0' | '1000' | '1200' | '1400' | '1600' | '1800' | '2000' | '2200' | '2500'
+type modes = 'casual' | 'rated'
+type openingHistory = {
+  month: string,
+  black: number,
+  draws: number,
+  white: number
+}
+
+type moves = {
+  uci: string,
+  san: string,
+  averageRating: number,
+  white: number,
+  draws: number,
+  black: number,
+  game: {
+    id: string,
+    winner: string,
+    white: { name: string, rating: number },
+    black: { name: string, rating: number },
+    year: number,
+    month: string
+  }
+}
+
+type topGames = {
+  uci: string,
+  id: string,
+  winner: string,
+  white: { name: string, rating: number },
+  black: { name: string, rating: number },
+  year: number,
+  month: string
+}
+
+export type mastersDatabase = {
+  fen?: string,
+  play?: string,
+  since?: number,
+  until?: number,
+  moves?: number,
+  topGames?: number
+}
+
+export type masterResponse = {
+  opening: { eco: string, name: string },
+  white: number,
+  draws: number,
+  black: number,
+  moves: moves[],
+  topGames: topGames[],
+  recentGames: [],
+  history: openingHistory[]
+}
+
+export type lichessGamesRequest = {
+  variant?: openingVariants,
+  fen?: string,
+  play?: string,
+  speeds?: openingSpeeds[],
+  ratings?: openingRatings[],
+  since?: string,
+  until?: string,
+  moves?: number,
+  topGames?: number,
+  recentGames?: number,
+  history?: boolean
+}
+
+export type playerGamesOpening = {
+  player: string,
+  color: 'white' | 'black',
+  variant?: openingVariants,
+  fen?: string,
+  play?: string,
+  speeds?: openingSpeeds[],
+  modes?: modes[],
+  since?: string,
+  until?: string,
+  moves?: number,
+  recentGames?: number
+}
+
+export type playerGamesOpeningResponse = {
+  white: number,
+  draws: number,
+  black: number,
+  moves: {
+    uci: string,
+    san: string,
+    averageOpponentRating: number,
+    performance: number,
+    white: number,
+    draws: number,
+    black: number,
+    game: {
+      id: string,
+      winner: string,
+      speed: string,
+      mode: string,
+      black: { name: string, rating: number },
+      white: { name: string, rating: number },
+      year: number,
+      month: string
+    }
+  }[],
+  recentGames:{
+    uci: string,
+    id: string,
+    winner: string,
+    speed: string,
+    mode: string,
+    black: { name: string, rating: number },
+    white: { name: string, rating: number },
+    year: number,
+    month: string
+  }[],
+  opening: { eco: string, name: string },
+  queuePosition: number
+}
+
+export type pngJSON = {
+  event?: string,
+  site?: string,
+  date?: string,
+  eventDate?: string,
+  round?: string,
+  white?: string,
+  black?: string,
+  result?: string,
+  eco?: string,
+  whiteElo?: string,
+  blackElo?: string,
+  plyCount?: string,
+  moves?: string
+}
+
+export type puzzleType = {
+  game: {
+    id: string,
+    perf: { key: perfType, name: string },
+    rated: boolean,
+    players: { userId: string, name: string, color: 'white' | 'black' }[],
+    pgn: string,
+    clock: string
+  },
+  puzzle: {
+    id: string,
+    rating: number,
+    plays: number,
+    solution: string[],
+    themes: string[],
+    initialPly: number
+  }
+}
+
+export type yourPuzzle = {
+  date: number,
+  win: boolean,
+  puzzle: {
+    id: string,
+    fen: string,
+    plays: number,
+    rating: number,
+    solution: string[],
+    themes: string[]
+  }
+}
