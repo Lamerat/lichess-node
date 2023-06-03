@@ -1,6 +1,6 @@
 import { playerObject, realTimeUser, perfType, topTenObject, userPublicData, performanceStatisticsUser, userById, pngJSON } from './types.js';
 import { teamMember, liveStreamer, crosstable, autocompleteUserName, mastersDatabase, masterResponse, lichessGamesRequest } from './types.js';
-import { playerGamesOpening, playerGamesOpeningResponse, puzzleType, yourPuzzle } from './types.js';
+import { playerGamesOpening, playerGamesOpeningResponse, puzzleType, yourPuzzle, puzzleDashBoardResponse, stormDashboardResponse } from './types.js';
 import got from 'got';
 import ndJSON from 'ndjson'
 
@@ -17,7 +17,7 @@ export default class Lichess {
         (error: any) => {
           const { response } = error;
           if (response && response.body) {
-            error.message = response.body.error
+            error.message = response.body.error || JSON.parse(response.body)
             error.code = response.statusCode
           }
           return error;
@@ -402,12 +402,50 @@ export default class Lichess {
       return Promise.reject(error);
     }
   }
+
+  /** Download your puzzle dashboard as JSON. Also includes all puzzle themes played, with aggregated results */
+  public async getYourPuzzleDashboard(options: { days: number }): Promise<puzzleDashBoardResponse> {
+    try {
+      const { days } = options;
+      if (!days || typeof days !== 'number' || days < 1) throw new Error(`Missing or invalid option days. Must be number >= 1`)
+      console.log(`${Lichess.api}/puzzle/dashboard/${days}`)
+
+      const result = await Lichess.request.get(`${Lichess.api}/puzzle/dashboard/${days}`, { headers: { ...this.headers } });
+      return Promise.resolve(JSON.parse(result.body));
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  }
+
+  /** Get the storm dashboard of a player. Download the storm dashboard of any player as JSON. Contains the aggregated high scores, and the history of storm runs aggregated by days. Use ?days=0 if you only care about the high scores */
+  public async getTheStormDashboardOfPlayer(options: { username: string, days?: number }): Promise<stormDashboardResponse> {
+    try {
+      const { username, days } = options
+      if (!username || typeof username !== 'string' || !username.trim().length) throw new Error(`Missing or invalid option 'username'! Must be string with min 1 symbol.`)
+      if (days && (typeof days !== 'number' || days < 0 || days > 365)) throw new Error(`Invalid option 'days'. Must be number >= 0 and <= 365`)
+
+      const query = days !== undefined ? `?days=${days}` : '';
+      const result = await Lichess.request.get(`${Lichess.api}/storm/dashboard/${username}${query}`);
+
+      return Promise.resolve(JSON.parse(result.body));
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  }
+
+  /** Create a new private puzzle race. The Lichess user who creates the race must join the race page, and manually start the race when enough players have joined */
+  public async createAndJoinPuzzleRace(): Promise<{ id: string, url: string }> {
+    try {
+      const result = await Lichess.request.post(`${Lichess.api}/racer`, { headers: { ...this.headers } });
+      return Promise.resolve(JSON.parse(result.body));
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  }
 }
 
 
-const elka = new Lichess('lip_dZOVLWxgrKGzUYbrSRxz')
+const elka = new Lichess('lip_iFMseA5wiKm35DPdqM9M')
 
-elka.getYourPuzzleActivity({ max: 2, before: 1685577600070 })
-  .then(x => {
-    console.log(x.map(x => x.puzzle))
-  }).catch(e => console.log(e))
+elka.createAndJoinPuzzleRace()
+  .then(x => console.log(x)).catch(e => console.log(e.message))

@@ -412,3 +412,59 @@ export type yourPuzzle = {
     themes: string[]
   }
 }
+
+type themeType = {
+  theme: string,
+  results: {
+    nb: number,
+    firstWins: number,
+    replayWins: number,
+    puzzleRatingAvg: number,
+    performance: number
+  }
+}
+
+export type puzzleDashBoardResponse = {
+  days: number,
+  global: {
+    nb: number,
+    firstWins: number,
+    replayWins: number,
+    puzzleRatingAvg: number,
+    performance: number
+  },
+  themes: {
+    endgame: themeType,
+    middlegame: themeType,
+    pin: themeType,
+    exposedKing: themeType,
+    clearance: themeType,
+    advancedPawn: themeType,
+    quietMove: themeType,
+    sacrifice: themeType,
+    opening: themeType,
+    discoveredAttack: themeType,
+    doubleCheck: themeType,
+    skewer: themeType,
+    attraction: themeType
+  }
+}
+
+export type stormDashboardResponse = {
+  high: {
+    day: number,
+    week: number,
+    month: number,
+    allTime: number
+  },
+  days: {
+    _id: string,
+    moves: number,
+    errors: number,
+    highest: number,
+    score: number,
+    runs: number,
+    combo: number,
+    time: number
+  }[]
+}
