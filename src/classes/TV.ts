@@ -3,7 +3,7 @@ import { tvGames, streamGame, streamGameResponse } from '../types.js';
 import { Stream } from 'stream';
 
 export default class TV extends BaseClass {
-  private stream: Stream;
+  private stream: any;
 
   /** Get basic info about the best games being played for each speed and variant, but also computer games and bot games */
   public async getCurrentGames(): Promise<tvGames> {
@@ -19,9 +19,26 @@ export default class TV extends BaseClass {
   public async streamCurrentTVGame() {
     try {
       this.stream = this.request.stream(`${this.api}/tv/feed`)
-      return this.stream
+      return Promise.resolve(this.stream)
     } catch (error) {
       return Promise.reject(error);
+    }
+  }
+
+  public stopCurrentTVGameStream() {
+    try {
+      if (this.stream) {
+        this.stream.destroy()
+        this.stream = null
+      } else {
+        throw new Error(`Can't find active stream`)
+      }
+    } catch (error) {
+      return Promise.reject(error);
+    }
+
+    if (this.stream) {
+      this.stream.destroy()
     }
   }
 

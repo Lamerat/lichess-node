@@ -28,12 +28,16 @@ export default class Lichess {
 
 const elka = new Lichess()
 
-// elka.tv.streamCurrentTVGame().then(x => x.on('error', (error) => Promise.reject(error))
-// .on('data', (data) => {
-//   const elka = JSON.parse(data)
-//   console.log(elka)
-// })
-// .on('end', () => Promise.resolve(2)))
+elka.tv.streamCurrentTVGame().then(x =>
+  x
+    .on('error', (error) => Promise.reject(error))
+    .on('data', (data) => {
+        const elka = JSON.parse(data)
+        console.log(elka)
+    })
+    .on('close', () => console.log('end')))
 
 elka.tv.getBestOngoingGames('blitz', 'json', { clocks: true, moves: true, nb: 2, pgnInJson: true, opening: true, tags: true })
   .then(x => console.log(x[0].clocks)).catch(e => console.log(e.message))
+
+setTimeout(() => elka.tv.stopCurrentTVGameStream(), 5000)
