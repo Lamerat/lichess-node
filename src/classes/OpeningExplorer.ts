@@ -56,7 +56,7 @@ export default class OpeningExplorer extends BaseClass {
       const data = await this.request.get(`${this.explorer}/master/pgn/${gameId}`, { headers: { "accept":"application/x-ndjson" } });
       type resType = formatValue extends 'png' ? string : pngJSON;
       const result = format === 'png' ? data.body : this.pngParser(data.body);
-      return result as resType;
+      return Promise.resolve(result as resType);
     } catch (error) {
       return Promise.reject(error);
     }

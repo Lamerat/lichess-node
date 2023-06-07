@@ -468,3 +468,64 @@ export type stormDashboardResponse = {
     time: number
   }[]
 }
+
+type singleTVGame = {
+  user: {
+    id: string,
+    name: string,
+    title?: string,
+    patron?: boolean,
+  },
+  rating: number
+  gameId: string
+}
+
+export type tvGames = {
+  Bot: singleTVGame,
+  Blitz: singleTVGame,
+  'Racing Kings': singleTVGame,
+  UltraBullet: singleTVGame,
+  Bullet: singleTVGame,
+  Classical: singleTVGame,
+  'Three-check': singleTVGame,
+  Antichess: singleTVGame,
+  Computer: singleTVGame,
+  Horde: singleTVGame,
+  Rapid: singleTVGame,
+  Atomic: singleTVGame,
+  Crazyhouse: singleTVGame,
+  Chess960: singleTVGame,
+  'King of the Hill': singleTVGame,
+  'Top Rated': singleTVGame
+}
+
+
+
+export type streamGame = {
+  nb?: number,
+  moves?: boolean,
+  pgnInJson?: boolean,
+  tags?: boolean,
+  clocks?: boolean,
+  opening?: boolean
+}
+
+export type streamGameResponse = {
+  id: string,
+  rated: boolean,
+  variant: string,
+  speed: string,
+  perf: string,
+  createdAt: number,
+  lastMoveAt: number,
+  status: string,
+  players: {
+    white: { user: { name: string, id: string }, rating: number },
+    black: { user: { name: string, id: string }, rating: number }   
+  },
+  opening: { eco: string, name: string, ply: number },
+  moves: string,
+  clocks: number[],
+  pgn: string
+  clock: { initial: number, increment: number, totalTime: number }
+}
