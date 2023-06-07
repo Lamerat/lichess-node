@@ -563,3 +563,36 @@ export type tableBaseResponse = {
     category: string
   }[]
 }
+
+type singleSimul = {
+  id: string,
+  name: string,
+  fullName: string,
+  host: {
+    id: string,
+    name: string,
+    rating: number,
+    title: string
+  },
+  isCreated: boolean,
+  isFinished: boolean,
+  isRunning: boolean,
+  estimatedStartAt: number,
+  startedAt: number,
+  finishedAt: number,
+  nbApplicants: 0,
+  nbPairings: 24,
+  text: string,
+  variants: {
+    icon: string,
+    key: string,
+    name: string
+  }[]
+}
+
+export type simulsResponse = {
+  pending: singleSimul[],
+  created: singleSimul[],
+  started: singleSimul[],
+  finished: singleSimul[]
+}
