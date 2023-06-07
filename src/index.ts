@@ -1,6 +1,7 @@
 import TV from './classes/TV.js';
 import Users from './classes/Users.js';
 import Puzzles from './classes/Puzzles.js';
+import Analysis from './classes/Analysis.js';
 import Relations from './classes/Relations.js';
 import OpeningExplorer from './classes/OpeningExplorer.js';
 
@@ -10,6 +11,7 @@ export default class Lichess {
   private puzzlesObject: Puzzles;
   private openingExplorerObject: OpeningExplorer;
   private tvObject: TV
+  private analysisObject: Analysis
   
   constructor(token?: string) {
     this.usersObject = new Users(token);
@@ -17,6 +19,7 @@ export default class Lichess {
     this.puzzlesObject = new Puzzles(token);
     this.openingExplorerObject = new OpeningExplorer(token);
     this.tvObject = new TV(token);
+    this.analysisObject = new Analysis(token)
   }
 
   get users() { return this.usersObject };
@@ -24,19 +27,11 @@ export default class Lichess {
   get puzzles() { return this.puzzlesObject };
   get openingExplorer() { return this.openingExplorerObject };
   get tv() { return this.tvObject };
+  get analysis() { return this.analysisObject };
 }
 
 const elka = new Lichess()
 
-elka.tv.streamCurrentTVGame().then(x =>
-    x.on('error', (error) => console.log(error))
-    .on('data', (data) => {
-        
-        console.log(data)
-    })
-    .on('close', () => console.log('end')))
-
-// elka.tv.getBestOngoingGames('blitz', 'json', { clocks: true, moves: true, nb: 2, pgnInJson: true, opening: true, tags: true })
-//   .then(x => console.log(x[0].clocks)).catch(e => console.log(e.message))
-
-setTimeout(() => elka.tv.stopCurrentTVGameStream(), 5000)
+elka.analysis.getCloudEvaluation({ fen: 'rnbqkbnr/ppp1pppp/8/3pP3/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 2', variant: 'standard' })
+  .then(x => console.log(x))
+  .catch(e => console.log(e.message))

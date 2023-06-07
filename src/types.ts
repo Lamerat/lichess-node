@@ -529,3 +529,11 @@ export type streamGameResponse = {
   pgn: string
   clock: { initial: number, increment: number, totalTime: number }
 }
+
+export type analysisRequest = { fen: string, multiPv?: number, variant?: openingVariants }
+export type analysisResponse = {
+  fen: string,
+  knodes: number,
+  depth: number,
+  pvs: { moves: string, cp: number }[]
+}

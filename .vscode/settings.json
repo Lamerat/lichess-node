@@ -5,6 +5,7 @@
     "crosstable",
     "followable",
     "glicko",
+    "knodes",
     "leaderboard",
     "Lichess",
     "middlegame",
