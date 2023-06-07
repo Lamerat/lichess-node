@@ -537,3 +537,29 @@ export type analysisResponse = {
   depth: number,
   pvs: { moves: string, cp: number }[]
 }
+
+export type tableBaseResponse = {
+  dtz: number,
+  precise_dtz: number,
+  dtm: number,
+  checkmate: boolean,
+  stalemate: boolean,
+  variant_win: boolean,
+  variant_loss: boolean,
+  insufficient_material: boolean,
+  category: string,
+  moves: {
+    uci: string,
+    san: string,
+    dtz: number,
+    precise_dtz: number,
+    dtm: number,
+    zeroing: true,
+    checkmate: boolean,
+    stalemate: boolean,
+    variant_win: boolean,
+    variant_loss: boolean,
+    insufficient_material: boolean,
+    category: string
+  }[]
+}
