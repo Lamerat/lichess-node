@@ -7,6 +7,7 @@ export default class BaseClass {
   protected api: string = 'https://lichess.org/api';
   protected explorer: string = 'https://explorer.lichess.ovh'
   protected table: string = 'https://tablebase.lichess.ovh'
+  protected gameAddress: string = 'https://lichess.org/game'
 
   constructor(token: string) {
     if (token) this.headers = { Authorization: `Bearer ${token}` };

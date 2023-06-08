@@ -596,3 +596,15 @@ export type simulsResponse = {
   started: singleSimul[],
   finished: singleSimul[]
 }
+
+export type exportGame = {
+  moves?: boolean,
+  pgnInJson?: boolean,
+  tags?: boolean,
+  clocks?: boolean,
+  evals?: boolean,
+  accuracy?: boolean,
+  opening?: boolean,
+  literate?: boolean,
+  players?: string
+}
