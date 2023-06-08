@@ -665,10 +665,11 @@ export type exportGameResponse = {
     ply: number
   },
   moves: string,
-  pgn: string,
+  pgn?: string,
   daysPerTurn: number,
   analysis: analysisObject[],
   tournament: string,
   swiss: string,
-  clock: clockObject
+  clock: clockObject,
+  clocks?: number[],
 }
