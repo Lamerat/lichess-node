@@ -48,6 +48,6 @@ const elka = new Lichess()
 //   .then(x => console.log(x))
 //   .catch(e => console.log(e.message))
 
-elka.games.exportOneGame('VgOsDjmn', 'json', { clocks: true, players: 'https://gist.githubusercontent.com/ornicar/6bfa91eb61a2dcae7bcd14cce1b2a4eb/raw/768b9f6cc8a8471d2555e47ba40fb0095e5fba37/gistfile1.txt' })
+elka.games.exportOneGame('VgOsDjmn', 'json', { clocks: true })
   .then(x => console.log(x))
   .catch(e => console.log(e.message))

@@ -244,6 +244,7 @@ export type autocompleteUserName = {
 type openingVariants = 'standard' | 'chess960' | 'crazyhouse' | 'antichess' | 'atomic' | 'horde' | 'kingOfTheHill' | 'racingKings' | 'threeCheck' | 'fromPosition'
 type openingSpeeds = 'ultraBullet' | 'bullet' | 'blitz' | 'rapid' | 'classical' | 'correspondence'
 type openingRatings = '0' | '1000' | '1200' | '1400' | '1600' | '1800' | '2000' | '2200' | '2500'
+type statuses = 'created' |'started' |'aborted' |'mate' |'resign' |'stalemate' |'timeout' |'draw' |'outoftime' |'cheat' |'noStart' |'unknownFinish' |'variantEnd'
 type modes = 'casual' | 'rated'
 type openingHistory = {
   month: string,
@@ -607,4 +608,67 @@ export type exportGame = {
   opening?: boolean,
   literate?: boolean,
   players?: string
+}
+
+type titles = 'GM' | 'WGM' | 'IM' | 'WIM' | 'FM' | 'WFM' | 'NM' | 'CM' | 'WCM' | 'WNM' | 'LM' | 'BOT'
+
+type gamePlayers = {
+  user: { id: string, name: string, title: titles, patron: boolean },
+  rating: number,
+  ratingDiff: number,
+  name: string,
+  provisional: boolean,
+  aiLevel: number,
+  analysis: {
+    inaccuracy: number,
+    mistake: number,
+    blunder: number,
+    acpl: number
+  },
+  team: string
+}
+
+type analysisObject = {
+  eval: number,
+  best: string,
+  variation: string,
+  judgment: {
+    name: 'Inaccuracy' | 'Mistake' | 'Blunder',
+    comment: string
+  }
+}
+
+type clockObject = {
+  initial: number,
+  increment: number,
+  totalTime: number
+}
+
+export type exportGameResponse = {
+  id: string,
+  rated: boolean,
+  variant: openingVariants,
+  speed: openingSpeeds,
+  perf: string,
+  createdAt: number,
+  lastMoveAt: number,
+  status: statuses,
+  players: {
+    white: gamePlayers,
+    black: gamePlayers
+  },
+  initialFen: string,
+  winner: 'white' | 'black',
+  opening: {
+    eco: string,
+    name: string,
+    ply: number
+  },
+  moves: string,
+  pgn: string,
+  daysPerTurn: number,
+  analysis: analysisObject[],
+  tournament: string,
+  swiss: string,
+  clock: clockObject
 }
