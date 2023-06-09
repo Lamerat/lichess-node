@@ -42,12 +42,16 @@ export default class Lichess {
   get games() { return this.gamesObject };
 }
 
+
+
 const elka = new Lichess()
+
 
 // elka.analysis.getCloudEvaluation({ fen: 'rnbqkbnr/ppp1pppp/8/3pP3/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 2', variant: 'standard' })
 //   .then(x => console.log(x))
 //   .catch(e => console.log(e.message))
 
-elka.games.exportOngoingGameUser('shuriks91', 'json', { clocks: true, evals: true, accuracy: true, literate: true, tags: true, moves: true, opening: true, pgnInJson: true })
-  .then(x => console.log(x.moves))
+// elka.games.exportOngoingGameUser('shuriks91', 'json', { clocks: true, evals: true, accuracy: true, literate: true, tags: true, moves: true, opening: true, pgnInJson: true })
+elka.games.exportGamesUser('XuYL_1a', 'json', { sort: 'dateDesc', max: 10 })
+  .then(x => console.log(x))
   .catch(e => console.log(e.message))

@@ -23,6 +23,8 @@ interface topKingOfTheHill extends topTenObject { kingOfTheHill: { rapid: { rati
 interface topRacingKings extends topTenObject { perfs: { racingKings: { rating: number, progress: number } } }
 interface topThreeCheck extends topTenObject { perfs: { threeCheck: { rating: number, progress: number } } }
 
+type sort = 'dateAsc' | 'dateDesc'
+
 type perf = {
   games: number,
   rating: number,
@@ -672,4 +674,28 @@ export type exportGameResponse = {
   swiss: string,
   clock: clockObject,
   clocks?: number[],
+}
+
+export type exportGamesOptions = {
+  since?: number,
+  until?: number,
+  max?: number,
+  vs?: string,
+  rated?: boolean,
+  perfType?: perfType,
+  color?: 'white' | 'black',
+  analysed?: boolean,
+  moves?: boolean,
+  pgnInJson?: boolean,
+  tags?: boolean,
+  clocks?: boolean,
+  evals?: boolean,
+  accuracy?: boolean,
+  opening?: boolean,
+  ongoing?: boolean,
+  finished?: boolean,
+  literate?: boolean,
+  lastFen?: boolean,
+  players?: string,
+  sort?: sort
 }
