@@ -8,6 +8,7 @@ export default class BaseClass {
   protected explorer: string = 'https://explorer.lichess.ovh'
   protected table: string = 'https://tablebase.lichess.ovh'
   protected gameAddress: string = 'https://lichess.org/game'
+  protected studyAddress: string = 'https://lichess.org/study'
 
   constructor(token: string) {
     if (token) this.headers = { Authorization: `Bearer ${token}` };

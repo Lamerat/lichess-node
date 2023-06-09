@@ -50,14 +50,6 @@ export default class Lichess {
 
 const elka = new Lichess()
 
-
-// elka.analysis.getCloudEvaluation({ fen: 'rnbqkbnr/ppp1pppp/8/3pP3/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 2', variant: 'standard' })
-//   .then(x => console.log(x))
-//   .catch(e => console.log(e.message))
-
-// elka.games.exportOngoingGameUser('shuriks91', 'json', { clocks: true, evals: true, accuracy: true, literate: true, tags: true, moves: true, opening: true, pgnInJson: true })
-// elka.games.exportGamesUser('XuYL_1a', 'json', { sort: 'dateDesc', max: 10 })
-
-elka.studies.exportOneStudyChapter('MtWmIyQ5', 'JLawNbOw', 'json', { comments: false })
-  .then(x => console.log(x.annotator))
+elka.studies.listStudiesUser('sea_flanker', 10)
+  .then(x => console.log(x.map(x => x.id)))
   .catch(e => console.log(e.message))

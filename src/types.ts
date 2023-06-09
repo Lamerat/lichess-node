@@ -708,3 +708,10 @@ export type studyQuery = {
   source?: boolean,
   orientation?: boolean
 }
+
+export type StudyMetadata = {
+  id: string,
+  name: string,
+  createdAt: number,
+  updatedAt: number
+}
