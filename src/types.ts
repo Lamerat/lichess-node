@@ -378,6 +378,7 @@ export type pngJSON = {
   black?: string,
   result?: string,
   eco?: string,
+  annotator?: string,
   whiteElo?: string,
   blackElo?: string,
   plyCount?: string,
@@ -698,4 +699,12 @@ export type exportGamesOptions = {
   lastFen?: boolean,
   players?: string,
   sort?: sort
+}
+
+export type studyQuery = {
+  clocks?: boolean,
+  comments?: boolean,
+  variations?: boolean,
+  source?: boolean,
+  orientation?: boolean
 }
