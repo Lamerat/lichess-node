@@ -14,6 +14,7 @@ export default class Games extends BaseClass {
     })
   }
 
+  /** Download one game in either PGN or JSON format. Ongoing games have their last 3 moves omitted after move 5, as to prevent cheat bots from using this API. */
   public async exportOneGame<formatValue extends 'png' | 'json'>(gameId: string, format: formatValue, options?: exportGame) {
     try {
       if (!gameId || typeof gameId !== 'string' || gameId.length !== 8) throw new Error(`Missing or invalid parameter 'gameId'. Must be 8 characters string!`)
