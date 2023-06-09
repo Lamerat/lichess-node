@@ -55,9 +55,9 @@ export default class BaseClass {
         const [tag, ...rest]: string[] = x.slice(1, x.length - 1).split(' ').map(x => x.replaceAll('"', ''));
         const camelCaseTag = [...tag];
         camelCaseTag[0] = camelCaseTag[0].toLowerCase();
-        result[camelCaseTag.join('')] = rest.join( ' ');
+        result[camelCaseTag.join('')] = rest.join(' ');
       } else {
-        result.moves = x;
+        result.moves = result.moves ? result.moves + x : x;
       }
     })
     return result;
