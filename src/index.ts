@@ -4,6 +4,7 @@ import Games from './classes/Games.js';
 import Simuls from './classes/Simuls.js';
 import Studies from './classes/Studies.js';
 import Puzzles from './classes/Puzzles.js';
+import Account from './classes/Account.js';
 import Analysis from './classes/Analysis.js';
 import Relations from './classes/Relations.js';
 import Tablebase from './classes/Tablebase.js';
@@ -16,6 +17,7 @@ export default class Lichess {
   private simulsObject: Simuls;
   private puzzlesObject: Puzzles;
   private studiesObject: Studies;
+  private accountObject: Account;
   private tableObject: Tablebase;
   private analysisObject: Analysis;
   private relationsObject: Relations;
@@ -29,6 +31,7 @@ export default class Lichess {
     this.studiesObject = new Studies(token);
     this.tableObject = new Tablebase(token);
     this.puzzlesObject = new Puzzles(token);
+    this.accountObject = new Account(token);
     this.analysisObject = new Analysis(token);
     this.relationsObject = new Relations(token);
     this.openingExplorerObject = new OpeningExplorer(token);
@@ -41,6 +44,7 @@ export default class Lichess {
   get puzzles() { return this.puzzlesObject };
   get tablebase() { return this.tableObject };
   get studies() { return this.studiesObject };
+  get account() { return this.accountObject };
   get analysis() { return this.analysisObject };
   get relations() { return this.relationsObject };
   get openingExplorer() { return this.openingExplorerObject };
@@ -48,8 +52,19 @@ export default class Lichess {
 
 
 
-const elka = new Lichess()
+const main = async () => {
+  try {
+    const elka = new Lichess()
 
-elka.studies.listStudiesUser('sea_flanker', 10)
-  .then(x => console.log(x.map(x => x.id)))
-  .catch(e => console.log(e.message))
+    const res = await elka.account.getMyKidModeStatus()
+    const res1 = await elka.account.setMyKidModeStatus(false)
+
+    console.log(res)
+    console.log(res1)
+    
+  } catch (error) {
+    console.log(error.message)
+  }
+}
+
+main()

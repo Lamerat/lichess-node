@@ -24,6 +24,12 @@ interface topRacingKings extends topTenObject { perfs: { racingKings: { rating: 
 interface topThreeCheck extends topTenObject { perfs: { threeCheck: { rating: number, progress: number } } }
 
 type sort = 'dateAsc' | 'dateDesc'
+type titles = 'GM' | 'WGM' | 'IM' | 'WIM' | 'FM' | 'WFM' | 'NM' | 'CM' | 'WCM' | 'WNM' | 'LM' | 'BOT'
+type themes = 'blue' | 'blue2' | 'blue3' | 'blue-marble' | 'canvas' | 'wood' | 'wood2' | 'wood3' | 'wood4' | 'maple' | 'maple2' | 'brown' | 'leather' | 'green' | 'marble' | 'green-plastic' | 'grey' | 'metal' | 'olive' | 'newspaper' |'purple' |'purple-diag' |'pink' |'ic'
+type pieceSets = 'cburnett' | 'merida' | 'alpha' | 'pirouetti' | 'chessnut' | 'chess7' | 'reillycraig' | 'companion' | 'riohacha' | 'kosal' | 'leipzig' | 'fantasy' | 'spatial' | 'california' | 'pixel' | 'maestro' | 'fresca' | 'cardinal' | 'gioco' | 'tatiana' | 'staunty' | 'governor' | 'dubrovny' | 'icpieces' | 'shapes' | 'letter'
+type themes3d = 'Black-White-Aluminium' | 'Brushed-Aluminium' | 'China-Blue' | 'China-Green' | 'China-Grey' | 'China-Scarlet' | 'Classic-Blue' | 'Gold-Silver' | 'Light-Wood' | 'Power-Coated' | 'Rosewood' | 'Marble' | 'Wax' | 'Jade' | 'Woodi'
+type pieceSets3d = 'Basic' | 'Wood' | 'Metal' | 'RedVBlue' | 'ModernJade' | 'ModernWood' | 'Glass' | 'Trimmed' | 'Experimental' | 'Staunton' | 'CubesAndPi'
+type soundSets = 'silent' | 'standard' | 'piano' | 'nes' | 'sfx' | 'futuristic' | 'robot' | 'music' | 'speech'
 
 type perf = {
   games: number,
@@ -91,7 +97,7 @@ export interface userPublicData {
   patron: boolean,
   verified: boolean,
   playTime: playTime,
-  title: string,
+  title: titles,
   url: string,
   playing: string,
   count: count,
@@ -613,7 +619,7 @@ export type exportGame = {
   players?: string
 }
 
-type titles = 'GM' | 'WGM' | 'IM' | 'WIM' | 'FM' | 'WFM' | 'NM' | 'CM' | 'WCM' | 'WNM' | 'LM' | 'BOT'
+
 
 type gamePlayers = {
   user: { id: string, name: string, title: titles, patron: boolean },
@@ -714,4 +720,45 @@ export type StudyMetadata = {
   name: string,
   createdAt: number,
   updatedAt: number
+}
+
+export type preferencesResponse = {
+  prefs: {
+    dark: boolean,
+    transp: boolean,
+    bgImg: string,
+    is3d: boolean,
+    theme: themes,
+    pieceSet: pieceSets,
+    theme3d: themes3d,
+    pieceSet3d: pieceSets3d,
+    soundSet: soundSets,
+    blindfold: number,
+    autoQueen: number,
+    autoThreefold: number,
+    takeback: number,
+    moretime: number,
+    clockTenths: number,
+    clockBar: boolean,
+    clockSound: boolean,
+    premove: boolean,
+    animation: number,
+    captured: boolean,
+    follow: boolean,
+    highlight: boolean,
+    destination: boolean,
+    coords: number,
+    replay: number,
+    challenge: number,
+    message: number,
+    coordColor: number,
+    submitMove: number,
+    confirmResign: number,
+    insightShare: number,
+    keyboardMove: number,
+    zen: number,
+    moveEvent: number,
+    rookCastle: number
+    },
+  language: string
 }
