@@ -9,6 +9,7 @@ export default class BaseClass {
   protected table: string = 'https://tablebase.lichess.ovh'
   protected gameAddress: string = 'https://lichess.org/game'
   protected studyAddress: string = 'https://lichess.org/study'
+  protected inbox: string = 'https://lichess.org/inbox'
   protected request: Got;
 
   constructor(token: string) {

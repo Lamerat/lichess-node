@@ -9,6 +9,7 @@ import Analysis from './classes/Analysis.js';
 import Relations from './classes/Relations.js';
 import Tablebase from './classes/Tablebase.js';
 import OpeningExplorer from './classes/OpeningExplorer.js';
+import Messaging from './classes/Messaging.js';
 
 export default class Lichess {
   private tvObject: TV;
@@ -20,8 +21,10 @@ export default class Lichess {
   private accountObject: Account;
   private tableObject: Tablebase;
   private analysisObject: Analysis;
+  private messageObject: Messaging;
   private relationsObject: Relations;
   private openingExplorerObject: OpeningExplorer;
+
   
   constructor(token?: string) {
     this.tvObject = new TV(token);
@@ -33,6 +36,7 @@ export default class Lichess {
     this.puzzlesObject = new Puzzles(token);
     this.accountObject = new Account(token);
     this.analysisObject = new Analysis(token);
+    this.messageObject = new Messaging(token);
     this.relationsObject = new Relations(token);
     this.openingExplorerObject = new OpeningExplorer(token);
   }
@@ -46,6 +50,7 @@ export default class Lichess {
   get studies() { return this.studiesObject };
   get account() { return this.accountObject };
   get analysis() { return this.analysisObject };
+  get messaging() { return this.messageObject };
   get relations() { return this.relationsObject };
   get openingExplorer() { return this.openingExplorerObject };
 }
@@ -55,12 +60,8 @@ export default class Lichess {
 const main = async () => {
   try {
     const elka = new Lichess()
-
-    const res = await elka.account.getMyKidModeStatus()
-    const res1 = await elka.account.setMyKidModeStatus(false)
-
-    console.log(res)
-    console.log(res1)
+    
+    
     
   } catch (error) {
     console.log(error.message)
