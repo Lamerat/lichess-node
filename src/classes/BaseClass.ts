@@ -1,4 +1,4 @@
-import got from 'got';
+import got, { Got } from 'got';
 import ndJSON from 'ndjson';
 import { pngJSON } from '../types.js';
 
@@ -9,27 +9,28 @@ export default class BaseClass {
   protected table: string = 'https://tablebase.lichess.ovh'
   protected gameAddress: string = 'https://lichess.org/game'
   protected studyAddress: string = 'https://lichess.org/study'
+  protected request: Got;
 
   constructor(token: string) {
     if (token) this.headers = { Authorization: `Bearer ${token}` };
-  }
 
-  protected request = got.extend({
-    headers: this.headers,
-    hooks: {
-      beforeError: [
-        (error: any) => {
-          const { response } = error;
-          if (response && response.body) {
-            error.message = response.body.error || JSON.parse(response.body);
-            error.code = response.statusCode;
+    this.request = got.extend({
+      headers: this.headers,
+      hooks: {
+        beforeError: [
+          (error: any) => {
+            const { response } = error;
+            if (response && response.body) {
+              error.message = response.body.error || JSON.parse(response.body);
+              error.code = response.statusCode;
+            }
+            return error;
           }
-          return error;
-        }
-      ]
-    },
-    mutableDefaults: true
-  })
+        ]
+      },
+      mutableDefaults: true
+    })
+  }
 
   protected gotStream(url: string, limit: number = 100) {
     return new Promise((resolve, reject) => {
