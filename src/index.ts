@@ -8,8 +8,8 @@ import Account from './classes/Account.js';
 import Analysis from './classes/Analysis.js';
 import Relations from './classes/Relations.js';
 import Tablebase from './classes/Tablebase.js';
-import OpeningExplorer from './classes/OpeningExplorer.js';
 import Messaging from './classes/Messaging.js';
+import OpeningExplorer from './classes/OpeningExplorer.js';
 
 export default class Lichess {
   private tvObject: TV;
@@ -54,18 +54,3 @@ export default class Lichess {
   get relations() { return this.relationsObject };
   get openingExplorer() { return this.openingExplorerObject };
 }
-
-
-
-const main = async () => {
-  try {
-    const elka = new Lichess()
-    
-    
-    
-  } catch (error) {
-    console.log(error.message)
-  }
-}
-
-main()
