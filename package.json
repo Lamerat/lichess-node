@@ -1,7 +1,7 @@
 {
   "name": "lichess-node",
   "description": "Basic lichess node library",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "homepage": "https://github.com/Lamerat/lichess-node",
@@ -13,7 +13,7 @@
     "build": "tsc",
     "start": "tsc & node ./test.js"
   },
-  "keywords": [],
+  "keywords": ["lichess"],
   "devDependencies": {
     "@types/dotenv": "^8.2.0",
     "@types/node": "^18.15.11",
