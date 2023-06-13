@@ -1,16 +1,19 @@
 {
-  "name": "lichess",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "lichess-node",
+  "description": "Basic lichess node library",
+  "version": "0.0.1",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "homepage": "https://github.com/Lamerat/lichess-node",
+  "repository": "git://github.com/Lamerat/lichess-node.git",
+  "author": "Simeon Mladenov",
   "type": "module",
+  "license": "MIT",
   "scripts": {
     "build": "tsc",
     "start": "tsc & node ./test.js"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
     "@types/dotenv": "^8.2.0",
     "@types/node": "^18.15.11",
@@ -18,8 +21,12 @@
     "typescript": "^5.0.4"
   },
   "dependencies": {
+    "@types/got": "^9.6.12",
     "@types/ndjson": "^2.0.1",
-    "got": "^12.6.0",
+    "got": "^13.0.0",
     "ndjson": "^2.0.0"
-  }
+  },
+  "files": [
+    "dist/**/*"
+  ]
 }
