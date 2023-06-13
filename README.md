@@ -3,7 +3,7 @@ Lichess API node.js requests
 
 ### Installation
 ```sh
-npm i postman-rings
+npm i lichess-node
 ```
 
 ### Usage
