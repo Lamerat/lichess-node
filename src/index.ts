@@ -10,6 +10,7 @@ import Analysis from './classes/Analysis.js';
 import Relations from './classes/Relations.js';
 import Tablebase from './classes/Tablebase.js';
 import Messaging from './classes/Messaging.js';
+import Broadcasts from './classes/Broadcasts.js';
 import OpeningExplorer from './classes/OpeningExplorer.js';
 import ArenaTournaments from './classes/ArenaTournaments.js';
 
@@ -26,6 +27,7 @@ export default class Lichess {
   private analysisObject: Analysis;
   private messageObject: Messaging;
   private relationsObject: Relations;
+  private broadcastsObject: Broadcasts;
   private openingExplorerObject: OpeningExplorer;
   private arenaTournamentsObject: ArenaTournaments;
 
@@ -43,6 +45,7 @@ export default class Lichess {
     this.analysisObject = new Analysis(token);
     this.messageObject = new Messaging(token);
     this.relationsObject = new Relations(token);
+    this.broadcastsObject = new Broadcasts(token);
     this.openingExplorerObject = new OpeningExplorer(token);
     this.arenaTournamentsObject = new ArenaTournaments(token);
   }
@@ -59,6 +62,7 @@ export default class Lichess {
   get analysis() { return this.analysisObject; }
   get messaging() { return this.messageObject; }
   get relations() { return this.relationsObject; }
+  get broadcasts() { return this.broadcastsObject; }
   get openingExplorer() { return this.openingExplorerObject; }
   get arenaTournaments() { return this.arenaTournamentsObject; }
 }

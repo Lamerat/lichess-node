@@ -944,3 +944,27 @@ export type arenaTournamentDetails = {
     averageRating: number
   }
 }
+
+
+type broadcastRound = {
+  id: string,
+  name: string,
+  slug: string,
+  finished: boolean,
+  startsAt: number,
+  url: string
+}
+
+type broadcastTour = {
+  id: string,
+  name: string,
+  slug: string,
+  description: string,
+  markup: string,
+  url: string
+}
+
+export type officialBroadcast = {
+  tour: broadcastTour,
+  rounds: broadcastRound[]
+}

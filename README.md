@@ -29,12 +29,12 @@ chess.puzzles.getTheDailyPuzzle()
 - Bot - __none__
 - Challenges - __none__
 - Bulk pairings - __none__
-- Arena tournaments - __none__
+- Arena tournaments - only 2
 - Swiss tournaments - __none__
 - Simuls - all
 - Studies - all
 - Messaging - all
-- Broadcasts - __none__
+- Broadcasts - only 1
 - Analysis - all
 - External engine - __none__
 - Opening Explorer - all
