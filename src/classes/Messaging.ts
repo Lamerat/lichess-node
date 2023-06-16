@@ -1,5 +1,4 @@
 import BaseClass from './BaseClass.js';
-import { analysisRequest, analysisResponse } from '../types.js';
 
 export default class Messaging extends BaseClass {
   public async sendPrivateMessage(username: string, text: string): Promise<{ ok: boolean }> {

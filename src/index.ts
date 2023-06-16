@@ -1,6 +1,7 @@
 import TV from './classes/TV.js';
 import Users from './classes/Users.js';
 import Games from './classes/Games.js';
+import Teams from './classes/Teams.js';
 import Simuls from './classes/Simuls.js';
 import Studies from './classes/Studies.js';
 import Puzzles from './classes/Puzzles.js';
@@ -15,6 +16,7 @@ export default class Lichess {
   private tvObject: TV;
   private usersObject: Users;
   private gamesObject: Games;
+  private teamsObject: Teams;
   private simulsObject: Simuls;
   private puzzlesObject: Puzzles;
   private studiesObject: Studies;
@@ -30,6 +32,7 @@ export default class Lichess {
     this.tvObject = new TV(token);
     this.usersObject = new Users(token);
     this.gamesObject = new Games(token);
+    this.teamsObject = new Teams(token);
     this.simulsObject = new Simuls(token);
     this.studiesObject = new Studies(token);
     this.tableObject = new Tablebase(token);
@@ -44,6 +47,7 @@ export default class Lichess {
   get tv() { return this.tvObject };
   get users() { return this.usersObject };
   get games() { return this.gamesObject };
+  get teams() { return this.teamsObject };
   get simuls() { return this.simulsObject };
   get puzzles() { return this.puzzlesObject };
   get tablebase() { return this.tableObject };

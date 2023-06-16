@@ -31,6 +31,13 @@ type themes3d = 'Black-White-Aluminium' | 'Brushed-Aluminium' | 'China-Blue' | '
 type pieceSets3d = 'Basic' | 'Wood' | 'Metal' | 'RedVBlue' | 'ModernJade' | 'ModernWood' | 'Glass' | 'Trimmed' | 'Experimental' | 'Staunton' | 'CubesAndPi'
 type soundSets = 'silent' | 'standard' | 'piano' | 'nes' | 'sfx' | 'futuristic' | 'robot' | 'music' | 'speech'
 
+type lightUser = {
+  id: string,
+  name: string,
+  title: titles,
+  patron: boolean
+}
+
 type perf = {
   games: number,
   rating: number,
@@ -761,4 +768,93 @@ export type preferencesResponse = {
     rookCastle: number
     },
   language: string
+}
+
+export type teamsSwiss = {
+  rated: boolean,
+  clock: { increment: number, limit: number },
+  createdBy: string,
+  id: string,
+  name: string,
+  nbOngoing: number,
+  nbPlayers: number,
+  nbRounds: number,
+  nextRound: { at: string, in: number },
+  round: number,
+  startsAt: string,
+  status: string,
+  variant: string,
+  isRecentlyFinished: boolean,
+  password: boolean,
+  stats: {
+    absences: number,
+    averageRating: number,
+    blackWins: number,
+    byes: number,
+    draws: number,
+    games: number,
+    whiteWins: number
+  }
+}
+
+export type singleTeam = {
+  id: string,
+  name: string,
+  description: string,
+  open: boolean,
+  leader: lightUser,
+  leaders: lightUser[],
+  nbMembers: number,
+  location: string | null
+}
+
+export type popularTeams = {
+  currentPage: number,
+  maxPerPage: number,
+  currentPageResults: singleTeam[],
+  nbResults: number,
+  previousPage: number | null,
+  nextPage: number | null,
+  nbPages: number | null
+}
+
+export type teamArenaTournament = {
+  id: string,
+  createdBy: string,
+  system: 'arena',
+  minutes: number,
+  clock: { limit: number, increment: number },
+  rated: boolean,
+  fullName: string,
+  nbPlayers: number,
+  variant: {
+    key: openingVariants,
+    name: string,
+    short: string
+  },
+  startsAt: number,
+  finishesAt: number,
+  status: 10 | 20 | 30,
+  perf: {
+    key: string,
+    name: string,
+    position: number,
+    icon: string
+  },
+  secondsToStart: number,
+  hasMaxRating: boolean,
+  maxRating: { perf: perfType, rating: number },
+  minRating: { perf: perfType, rating: number },
+  minRatedGames: { nb: number, perf: perfType },
+  onlyTitled: boolean,
+  teamMember: string,
+  private: boolean,
+  position: { eco: string, name: string, fen: string, url: string } | { name: 'Custom position', fen: string },
+  schedule: { freq: string, speed: string},
+  teamBattle: { teams: string[], nbLeaders: number },
+  winner: {
+    id: string,
+    name: string,
+    title: titles
+  }
 }
