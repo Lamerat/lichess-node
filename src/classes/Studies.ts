@@ -39,7 +39,7 @@ export default class Studies extends BaseClass {
 
       type resType = formatValue extends 'png' ? string[] : pngJSON[];
 
-      return Promise.resolve(result as resType)
+      return Promise.resolve(result as resType);
     } catch (error) {
       return Promise.reject(error);
     }

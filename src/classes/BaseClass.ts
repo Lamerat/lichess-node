@@ -3,13 +3,13 @@ import ndJSON from 'ndjson';
 import { pngJSON } from '../types.js';
 
 export default class BaseClass {
-  protected headers: { Authorization?: string } = {}
+  protected headers: { Authorization?: string } = {};
   protected api: string = 'https://lichess.org/api';
-  protected explorer: string = 'https://explorer.lichess.ovh'
-  protected table: string = 'https://tablebase.lichess.ovh'
-  protected gameAddress: string = 'https://lichess.org/game'
-  protected studyAddress: string = 'https://lichess.org/study'
-  protected inbox: string = 'https://lichess.org/inbox'
+  protected explorer: string = 'https://explorer.lichess.ovh';
+  protected table: string = 'https://tablebase.lichess.ovh';
+  protected gameAddress: string = 'https://lichess.org/game';
+  protected studyAddress: string = 'https://lichess.org/study';
+  protected inbox: string = 'https://lichess.org/inbox';
   protected request: Got;
 
   constructor(token: string) {
@@ -30,7 +30,7 @@ export default class BaseClass {
         ]
       },
       mutableDefaults: true
-    })
+    });
   }
 
   protected gotStream(url: string, limit: number = 100) {
@@ -46,8 +46,8 @@ export default class BaseClass {
           if (counter >= limit) stream.end();
           counter = counter + 1;
         })
-        .on('end', () => resolve(result))
-    })
+        .on('end', () => resolve(result));
+    });
   }
 
   protected pngParser(png: string) {
@@ -62,7 +62,7 @@ export default class BaseClass {
       } else {
         result.moves = result.moves ? result.moves + x : x;
       }
-    })
+    });
     return result;
   }
 }

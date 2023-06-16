@@ -57,7 +57,7 @@ export default class TV extends BaseClass {
       const queryArray = [];
       Object.keys(options).filter(x => x !== 'channel' && x !== 'format').forEach(x => {
         if (options[x]) queryArray.push(`${x}=${options[x]}`);
-      })
+      });
 
       type resType = formatValue extends 'png' ? string[] : streamGameResponse[];
 

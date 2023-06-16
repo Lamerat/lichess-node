@@ -5,7 +5,7 @@ export default class Relations extends BaseClass {
   /** Get users followed by the logged in user */
   public async getUsersFollowed(limit: number = 10): Promise<userPublicData[]> {
     try {
-      if (typeof limit !== 'number' || limit < 1) throw new Error(`Invalid option 'limit'. Must be number bigger for zero`)
+      if (typeof limit !== 'number' || limit < 1) throw new Error(`Invalid option 'limit'. Must be number bigger for zero`);
 
       const data = await this.gotStream(`${this.api}/rel/following`, limit);
       const result = JSON.parse(JSON.stringify(data));
@@ -23,7 +23,7 @@ export default class Relations extends BaseClass {
       if (!action || typeof action !== 'string') throw new Error(`Missing or invalid option 'action'! Must be follow or unfollow`);
 
       const result = await this.request.post(`${this.api}/rel/${action}/${username}`, { headers: { ...this.headers } });
-      return Promise.resolve(JSON.parse(result.body))
+      return Promise.resolve(JSON.parse(result.body));
     } catch (error) {
       return Promise.reject(error);
     }

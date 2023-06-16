@@ -15,7 +15,7 @@ export default class ArenaTournaments extends BaseClass {
   /** Get detailed info about recently finished, current, or upcoming tournament's duels, player standings, and other info */
   public async getInfoAboutArenaTournament(id: string): Promise<arenaTournamentDetails> {
     try {
-      if (typeof id !== 'string' || !id.trim()) throw new Error(`Invalid parameter 'id'. Must be string!`)
+      if (typeof id !== 'string' || !id.trim()) throw new Error(`Invalid parameter 'id'. Must be string!`);
 
       const result = await this.request.get(`${this.api}/tournament/${id}`);
       return Promise.resolve(JSON.parse(result.body));

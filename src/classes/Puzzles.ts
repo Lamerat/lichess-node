@@ -6,7 +6,7 @@ export default class Puzzles extends BaseClass {
   public async getTheDailyPuzzle(): Promise<puzzleType> {
     try {
       const result = await this.request.get(`${this.api}/puzzle/daily`);
-      return Promise.resolve(JSON.parse(result.body))
+      return Promise.resolve(JSON.parse(result.body));
     } catch (error) {
       return Promise.reject(error);
     }
@@ -15,9 +15,9 @@ export default class Puzzles extends BaseClass {
   /** Get a single Lichess puzzle in JSON format */
   public async getPuzzleByID(id: string): Promise<puzzleType> {
     try {
-      if (!id || typeof id !== 'string' || !id.trim().length) throw new Error(`Missing or invalid option 'id'!`)
+      if (!id || typeof id !== 'string' || !id.trim().length) throw new Error(`Missing or invalid option 'id'!`);
       const result = await this.request.get(`${this.api}/puzzle/${id}`);
-      return Promise.resolve(JSON.parse(result.body))
+      return Promise.resolve(JSON.parse(result.body));
     } catch (error) {
       return Promise.reject(error);
     }
@@ -34,7 +34,7 @@ export default class Puzzles extends BaseClass {
 
       const queryArray = options
       ? Object.keys(options).map(x => Array.isArray(options[x]) ? `${x}=${options[x].join(',')}` : `${x}=${options[x]}`)
-      : []
+      : [];
       
       const query = queryArray.length ? '?' + queryArray.join('&') : '';
       const data = await this.gotStream(`${this.api}/puzzle/activity${query}`, max);
@@ -49,8 +49,8 @@ export default class Puzzles extends BaseClass {
   public async getYourPuzzleDashboard(options: { days: number }): Promise<puzzleDashBoardResponse> {
     try {
       const { days } = options;
-      if (!days || typeof days !== 'number' || days < 1) throw new Error(`Missing or invalid option days. Must be number >= 1`)
-      console.log(`${this.api}/puzzle/dashboard/${days}`)
+      if (!days || typeof days !== 'number' || days < 1) throw new Error(`Missing or invalid option days. Must be number >= 1`);
+      console.log(`${this.api}/puzzle/dashboard/${days}`);
 
       const result = await this.request.get(`${this.api}/puzzle/dashboard/${days}`, { headers: { ...this.headers } });
       return Promise.resolve(JSON.parse(result.body));
@@ -62,9 +62,9 @@ export default class Puzzles extends BaseClass {
   /** Get the storm dashboard of a player. Download the storm dashboard of any player as JSON. Contains the aggregated high scores, and the history of storm runs aggregated by days. Use ?days=0 if you only care about the high scores */
   public async getTheStormDashboardOfPlayer(options: { username: string, days?: number }): Promise<stormDashboardResponse> {
     try {
-      const { username, days } = options
-      if (!username || typeof username !== 'string' || !username.trim().length) throw new Error(`Missing or invalid option 'username'! Must be string with min 1 symbol.`)
-      if (days && (typeof days !== 'number' || days < 0 || days > 365)) throw new Error(`Invalid option 'days'. Must be number >= 0 and <= 365`)
+      const { username, days } = options;
+      if (!username || typeof username !== 'string' || !username.trim().length) throw new Error(`Missing or invalid option 'username'! Must be string with min 1 symbol.`);
+      if (days && (typeof days !== 'number' || days < 0 || days > 365)) throw new Error(`Invalid option 'days'. Must be number >= 0 and <= 365`);
 
       const query = days !== undefined ? `?days=${days}` : '';
       const result = await this.request.get(`${this.api}/storm/dashboard/${username}${query}`);

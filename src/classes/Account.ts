@@ -45,7 +45,7 @@ export default class Account extends BaseClass {
   /** Read the kid mode status of the logged in user */
   public async setMyKidModeStatus(v: boolean): Promise<{ ok: boolean }> {
     try {
-      if (typeof v !== 'boolean') throw new Error(`Missing or invalid parameter 'v'. Must be boolean!`)
+      if (typeof v !== 'boolean') throw new Error(`Missing or invalid parameter 'v'. Must be boolean!`);
 
       const result = await this.request.post(`${this.api}/account/kid?v=${v}`);
       return Promise.resolve(JSON.parse(result.body));

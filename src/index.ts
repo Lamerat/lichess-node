@@ -47,18 +47,18 @@ export default class Lichess {
     this.arenaTournamentsObject = new ArenaTournaments(token);
   }
 
-  get tv() { return this.tvObject };
-  get users() { return this.usersObject };
-  get games() { return this.gamesObject };
-  get teams() { return this.teamsObject };
-  get simuls() { return this.simulsObject };
-  get puzzles() { return this.puzzlesObject };
-  get tablebase() { return this.tableObject };
-  get studies() { return this.studiesObject };
-  get account() { return this.accountObject };
-  get analysis() { return this.analysisObject };
-  get messaging() { return this.messageObject };
-  get relations() { return this.relationsObject };
-  get openingExplorer() { return this.openingExplorerObject };
-  get arenaTournaments() { return this.arenaTournamentsObject };
+  get tv() { return this.tvObject; }
+  get users() { return this.usersObject; }
+  get games() { return this.gamesObject; }
+  get teams() { return this.teamsObject; }
+  get simuls() { return this.simulsObject; }
+  get puzzles() { return this.puzzlesObject; }
+  get tablebase() { return this.tableObject; }
+  get studies() { return this.studiesObject; }
+  get account() { return this.accountObject; }
+  get analysis() { return this.analysisObject; }
+  get messaging() { return this.messageObject; }
+  get relations() { return this.relationsObject; }
+  get openingExplorer() { return this.openingExplorerObject; }
+  get arenaTournaments() { return this.arenaTournamentsObject; }
 }

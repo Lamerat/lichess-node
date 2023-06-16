@@ -517,7 +517,6 @@ export type tvGames = {
 }
 
 
-
 export type streamGame = {
   nb?: number,
   moves?: boolean,
@@ -625,7 +624,6 @@ export type exportGame = {
   literate?: boolean,
   players?: string
 }
-
 
 
 type gamePlayers = {

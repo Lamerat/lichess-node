@@ -5,7 +5,7 @@ export default class Messaging extends BaseClass {
     try {
       if (!username || typeof username !== 'string' || !username.trim()) throw new Error(`Missing or invalid parameter 'username'. Must be string!`);
       if (!text || typeof text !== 'string' || !text.trim()) throw new Error(`Missing or invalid parameter 'text'. Must be string!`);
-      if (!this.headers?.Authorization) throw new Error(`This method require auth token!`)
+      if (!this.headers?.Authorization) throw new Error(`This method require auth token!`);
 
       const result = await this.request.post(`${this.inbox}/${username}`, { form: { text } });
 

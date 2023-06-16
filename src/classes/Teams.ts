@@ -23,7 +23,7 @@ export default class Teams extends BaseClass {
     try {
       if (typeof teamId !== 'string' || !teamId.trim()) throw new Error(`Missing or invalid param 'teamId'`);
 
-      const result = await this.request.get(`${this.api}/team/${teamId}`)
+      const result = await this.request.get(`${this.api}/team/${teamId}`);
       return Promise.resolve(JSON.parse(result.body));
     } catch (error) {
       return Promise.reject(error);
@@ -35,7 +35,7 @@ export default class Teams extends BaseClass {
     try {
       if (typeof page !== 'number' || page < 1) throw new Error(`Invalid param 'page'. Must be number >= 1`);
       
-      const result = await this.request.get(`${this.api}/team/all?page=${page}`)
+      const result = await this.request.get(`${this.api}/team/all?page=${page}`);
       return Promise.resolve(JSON.parse(result.body));
     } catch (error) {
       return Promise.reject(error);
@@ -47,7 +47,7 @@ export default class Teams extends BaseClass {
     try {
       if (typeof username !== 'string' || !username.trim()) throw new Error(`Missing or invalid param 'username'`);
 
-      const result = await this.request.get(`${this.api}/team/of/${username}`)
+      const result = await this.request.get(`${this.api}/team/of/${username}`);
       return Promise.resolve(JSON.parse(result.body));
     } catch (error) {
       return Promise.reject(error);
@@ -60,7 +60,7 @@ export default class Teams extends BaseClass {
       if (typeof text !== 'string') throw new Error(`Invalid param 'text'. Must be string`);
       if (typeof page !== 'number' || page < 1) throw new Error(`Invalid param 'page'. Must be number >= 1`);
 
-      const result = await this.request.get(`${this.api}/team/search?text=${text}&page=${page}`)
+      const result = await this.request.get(`${this.api}/team/search?text=${text}&page=${page}`);
       return Promise.resolve(JSON.parse(result.body));
     } catch (error) {
       return Promise.reject(error);
