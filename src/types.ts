@@ -858,3 +858,91 @@ export type teamArenaTournament = {
     title: titles
   }
 }
+
+export type arenaTournamentsResponse = {
+  created: teamArenaTournament[],
+  started: teamArenaTournament[],
+  finished: teamArenaTournament[],
+}
+
+export type arenaTournamentDetails = {
+  id: string,
+  fullName: string,
+  rated: boolean,
+  clock: { limit: number, increment: number },
+  minutes: number,
+  createdBy: string,
+  system: string,
+  secondsToStart: number,
+  secondsToFinish: number,
+  isFinished: boolean,
+  isRecentlyFinished: boolean,
+  pairingsClosed: boolean,
+  startsAt: number,
+  nbPlayers: number,
+  perf: {
+    key: string,
+    name: string,
+    position: number,
+    icon: string
+  },
+  schedule: { freq: string, speed: string},
+  variant: string,
+  duels: { id: string, p: { n: string, r: number, k: number }[] }[],
+  standings: {
+    page: number,
+    players: {
+      name: string,
+      rank: number,
+      rating: number,
+      score: number,
+      sheet: {
+        scores: { 0: number, 1: number } | number []
+        total: number,
+        fire: boolean
+      }
+    }[]
+  },
+  featured: {
+    id: string,
+    fen: string,
+    color: string,
+    lastMove: string,
+    white: {
+      rank: number,
+      name: string,
+      rating: number
+    },
+    black: {
+      rank: number,
+      name: string,
+      rating: number
+    }
+  },
+  podium: {
+    name: string,
+    rank: number,
+    rating: number,
+    score: number,
+    sheet: {
+      scores: { 0: number, 1: number } | number []
+      total: number,
+      fire: boolean
+    }
+    nb: {
+      game: number,
+      beserk: number,
+      win: number
+    },
+    performance: number
+  }[],
+  stats: {
+    games: number,
+    moves: number,
+    whiteWins: number,
+    blackWins: number,
+    draws: number,
+    berserks: number,
+    averageRating: number
+  }
+}

@@ -11,6 +11,7 @@ import Relations from './classes/Relations.js';
 import Tablebase from './classes/Tablebase.js';
 import Messaging from './classes/Messaging.js';
 import OpeningExplorer from './classes/OpeningExplorer.js';
+import ArenaTournaments from './classes/ArenaTournaments.js';
 
 export default class Lichess {
   private tvObject: TV;
@@ -26,6 +27,7 @@ export default class Lichess {
   private messageObject: Messaging;
   private relationsObject: Relations;
   private openingExplorerObject: OpeningExplorer;
+  private arenaTournamentsObject: ArenaTournaments;
 
   
   constructor(token?: string) {
@@ -42,6 +44,7 @@ export default class Lichess {
     this.messageObject = new Messaging(token);
     this.relationsObject = new Relations(token);
     this.openingExplorerObject = new OpeningExplorer(token);
+    this.arenaTournamentsObject = new ArenaTournaments(token);
   }
 
   get tv() { return this.tvObject };
@@ -57,4 +60,5 @@ export default class Lichess {
   get messaging() { return this.messageObject };
   get relations() { return this.relationsObject };
   get openingExplorer() { return this.openingExplorerObject };
+  get arenaTournaments() { return this.arenaTournamentsObject };
 }
