@@ -24,7 +24,7 @@ chess.puzzles.getTheDailyPuzzle()
 - Games - only 3
 - TV - all
 - Puzzles - all
-- Teams - __none__
+- Teams - few
 - Board - __none__
 - Bot - __none__
 - Challenges - __none__
