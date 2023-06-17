@@ -11,6 +11,7 @@ import Relations from './classes/Relations.js';
 import Tablebase from './classes/Tablebase.js';
 import Messaging from './classes/Messaging.js';
 import Broadcasts from './classes/Broadcasts.js';
+import ExternalEngine from './classes/ExternalEngine.js';
 import OpeningExplorer from './classes/OpeningExplorer.js';
 import ArenaTournaments from './classes/ArenaTournaments.js';
 
@@ -28,6 +29,7 @@ export default class Lichess {
   private messageObject: Messaging;
   private relationsObject: Relations;
   private broadcastsObject: Broadcasts;
+  private externalEnginesObject: ExternalEngine;
   private openingExplorerObject: OpeningExplorer;
   private arenaTournamentsObject: ArenaTournaments;
 
@@ -48,6 +50,7 @@ export default class Lichess {
     this.broadcastsObject = new Broadcasts(token);
     this.openingExplorerObject = new OpeningExplorer(token);
     this.arenaTournamentsObject = new ArenaTournaments(token);
+    this.externalEnginesObject = new ExternalEngine(token);
   }
 
   get tv() { return this.tvObject; }
@@ -63,6 +66,31 @@ export default class Lichess {
   get messaging() { return this.messageObject; }
   get relations() { return this.relationsObject; }
   get broadcasts() { return this.broadcastsObject; }
+  get externalEngine() { return this.externalEnginesObject; }
   get openingExplorer() { return this.openingExplorerObject; }
   get arenaTournaments() { return this.arenaTournamentsObject; }
 }
+
+const elka = new Lichess('lip_1sxViZxTVc3UKVOWuJMm');
+
+// elka.externalEngine.listExternalEngines()
+
+elka.externalEngine.createExternalEngine({
+  name: 'myTestEngine',
+  maxThreads: 1,
+  maxHash: 1,
+  defaultDepth: 0,
+  providerSecret: 'minLengthIs16characters'
+})
+// elka.externalEngine.getExternalEngine('eei_jQ6erJtMOqey')
+// elka.externalEngine.updateExternalEngine('eei_jQ6erJtMOqey', {
+//   name: 'myTestEngine2',
+//   maxThreads: 3,
+//   maxHash: 1,
+//   defaultDepth: 3,
+//   variants: ['atomic', 'chess', 'horde'],
+//   providerSecret: 'minLengthIs16characters22'
+// })
+// elka.externalEngine.deleteExternalEngine('eei_jQ6erJtMOqey')
+  .then(x => console.log(x))
+  .catch(e => console.log(e.message));

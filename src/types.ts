@@ -30,6 +30,7 @@ type pieceSets = 'cburnett' | 'merida' | 'alpha' | 'pirouetti' | 'chessnut' | 'c
 type themes3d = 'Black-White-Aluminium' | 'Brushed-Aluminium' | 'China-Blue' | 'China-Green' | 'China-Grey' | 'China-Scarlet' | 'Classic-Blue' | 'Gold-Silver' | 'Light-Wood' | 'Power-Coated' | 'Rosewood' | 'Marble' | 'Wax' | 'Jade' | 'Woodi'
 type pieceSets3d = 'Basic' | 'Wood' | 'Metal' | 'RedVBlue' | 'ModernJade' | 'ModernWood' | 'Glass' | 'Trimmed' | 'Experimental' | 'Staunton' | 'CubesAndPi'
 type soundSets = 'silent' | 'standard' | 'piano' | 'nes' | 'sfx' | 'futuristic' | 'robot' | 'music' | 'speech'
+type uciVariant = 'chess' | 'crazyhouse' | 'antichess' | 'atomic' | 'horde' | 'kingofthehill' | 'racingkings' | '3check'
 
 type lightUser = {
   id: string,
@@ -967,4 +968,26 @@ type broadcastTour = {
 export type officialBroadcast = {
   tour: broadcastTour,
   rounds: broadcastRound[]
+}
+
+export type externalEngineResponse = {
+  id: string,
+  name: string,
+  clientSecret: string,
+  userId: string,
+  maxThreads: number,
+  maxHash: number,
+  defaultDepth: number,
+  variants: uciVariant[],
+  providerData?: string
+}
+
+export type externalEngineRequest = {
+  name: string,
+  maxThreads: number,
+  maxHash: number,
+  defaultDepth: number,
+  variants?: uciVariant[],
+  providerSecret: string,
+  providerData?: string
 }

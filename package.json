@@ -1,7 +1,7 @@
 {
   "name": "lichess-node",
   "description": "Basic lichess node library",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "homepage": "https://github.com/Lamerat/lichess-node",

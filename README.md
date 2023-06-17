@@ -36,7 +36,7 @@ chess.puzzles.getTheDailyPuzzle()
 - Messaging - all
 - Broadcasts - only 1
 - Analysis - all
-- External engine - __none__
+- External engine - only 5
 - Opening Explorer - all
 - Tablebase - all
 
