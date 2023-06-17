@@ -63,6 +63,29 @@ interface perfs {
   storm: perf
 }
 
+type puzzleModePerf = {
+  runs: number,
+  score: number
+}
+
+type perfObject = {
+  chess960: perf,
+  atomic: perf,
+  racingKings: perf,
+  ultraBullet: perf,
+  blitz: perf,
+  kingOfTheHill: perf,
+  bullet: perf,
+  correspondence: perf,
+  horde: perf,
+  puzzle: perf,
+  classical: perf,
+  rapid: perf,
+  storm: puzzleModePerf,
+  racer: puzzleModePerf,
+  streak: puzzleModePerf
+}
+
 type count = {
   all: number,
   rated: number,
@@ -990,4 +1013,19 @@ export type externalEngineRequest = {
   variants?: uciVariant[],
   providerSecret: string,
   providerData?: string
+}
+
+export type onlineBots = {
+  id: string,
+  username: string,
+  perfs: perfObject,
+  createdAt: number,
+  disabled: boolean,
+  tosViolation: boolean,
+  profile: profile,
+  seenAt: number,
+  patron: boolean,
+  verified: boolean,
+  playTime: playTime,
+  title: titles
 }

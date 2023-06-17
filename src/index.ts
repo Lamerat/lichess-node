@@ -1,4 +1,5 @@
 import TV from './classes/TV.js';
+import Bot from './classes/Bot.js';
 import Users from './classes/Users.js';
 import Games from './classes/Games.js';
 import Teams from './classes/Teams.js';
@@ -17,6 +18,7 @@ import ArenaTournaments from './classes/ArenaTournaments.js';
 
 export default class Lichess {
   private tvObject: TV;
+  private botObject: Bot;
   private usersObject: Users;
   private gamesObject: Games;
   private teamsObject: Teams;
@@ -36,6 +38,7 @@ export default class Lichess {
   
   constructor(token?: string) {
     this.tvObject = new TV(token);
+    this.botObject = new Bot(token);
     this.usersObject = new Users(token);
     this.gamesObject = new Games(token);
     this.teamsObject = new Teams(token);
@@ -54,6 +57,7 @@ export default class Lichess {
   }
 
   get tv() { return this.tvObject; }
+  get bot() { return this.botObject; }
   get users() { return this.usersObject; }
   get games() { return this.gamesObject; }
   get teams() { return this.teamsObject; }
@@ -70,27 +74,3 @@ export default class Lichess {
   get openingExplorer() { return this.openingExplorerObject; }
   get arenaTournaments() { return this.arenaTournamentsObject; }
 }
-
-const elka = new Lichess('lip_1sxViZxTVc3UKVOWuJMm');
-
-// elka.externalEngine.listExternalEngines()
-
-elka.externalEngine.createExternalEngine({
-  name: 'myTestEngine',
-  maxThreads: 1,
-  maxHash: 1,
-  defaultDepth: 0,
-  providerSecret: 'minLengthIs16characters'
-})
-// elka.externalEngine.getExternalEngine('eei_jQ6erJtMOqey')
-// elka.externalEngine.updateExternalEngine('eei_jQ6erJtMOqey', {
-//   name: 'myTestEngine2',
-//   maxThreads: 3,
-//   maxHash: 1,
-//   defaultDepth: 3,
-//   variants: ['atomic', 'chess', 'horde'],
-//   providerSecret: 'minLengthIs16characters22'
-// })
-// elka.externalEngine.deleteExternalEngine('eei_jQ6erJtMOqey')
-  .then(x => console.log(x))
-  .catch(e => console.log(e.message));
